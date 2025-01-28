@@ -1,0 +1,5 @@
+instance_name  = "MyTestInstance"
+ami_id         = "ami-0df8c184d5f6ae949"
+instance_type  = "t2.micro"
+key_name = "MyInstanceKey"
+private_key_path = "./MyInstanceKey.pem"
