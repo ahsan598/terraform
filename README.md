@@ -29,6 +29,9 @@ Here are some essential Terraform commands for managing infrastructure as code.
 - **List Workspaces:**
   `terraform workspace list`
 
+- **Show Workspaces:**
+  `terraform workspace show`
+
 - **Select a Workspace:**
   `terraform workspace select <workspace-name>`
 
