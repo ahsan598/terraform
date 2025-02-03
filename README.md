@@ -1,5 +1,3 @@
-# Terraform Configuration Files!
-
 ## Terraform Commands
 
 Here are some essential Terraform commands for managing infrastructure as code.
