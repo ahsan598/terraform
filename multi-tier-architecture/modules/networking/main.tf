@@ -56,9 +56,9 @@ resource "aws_route_table" "multi_tier_public_rt" {
 
 # Public Route via Internet Gateway
 resource "aws_route" "public_igw_access" {
+  gateway_id             = aws_internet_gateway.multi_tier_igw.id
   route_table_id         = aws_route_table.multi_tier_public_rt.id
   destination_cidr_block = "0.0.0.0/0"
-  gateway_id             = aws_internet_gateway.multi_tier_igw.id
 }
 
 # Associate Public Subnets with Public Route Table
@@ -113,9 +113,9 @@ resource "aws_route_table" "multi_tier_private_rt" {
 
 # Private Route via NAT Gateway
 resource "aws_route" "private_nat_access" {
+  nat_gateway_id         = aws_nat_gateway.multi_tier_nat.id
   route_table_id         = aws_route_table.multi_tier_private_rt.id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.multi_tier_nat.id
 }
 
 # Associate Private Subnets with Private Route Table
@@ -148,7 +148,7 @@ resource "aws_security_group_rule" "web_ingress_http" {
 
 # Web Server Egress Rule: Allow all outbound traffic
 resource "aws_security_group_rule" "web_egress" {
-  security_group_id = aws_security_group.web_sg.id
+  security_group_id = aws_security_group.multi_tier_websg.id
   type              = "egress"
   from_port         = 0
   to_port           = 0
@@ -180,7 +180,7 @@ resource "aws_security_group_rule" "app_ingress" {
 
 # App Server Egress Rule: Allow all outbound traffic
 resource "aws_security_group_rule" "app_egress" {
-  security_group_id = aws_security_group.app_sg.id
+  security_group_id = aws_security_group.multi_tier_appsg.id
   type              = "egress"
   from_port         = 0
   to_port           = 0

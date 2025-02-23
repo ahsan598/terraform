@@ -2,7 +2,7 @@
 # Launch Template for Web and App Servers
 
 resource "aws_launch_template" "multi_tier_lt" {
-  name_prefix   = "${var.project_name}-lt"
+  name_prefix   = "${var.project_name}-multi-tier-lt"
   image_id      = var.ami_id
   instance_type = var.instance_type
 
@@ -15,7 +15,7 @@ resource "aws_launch_template" "multi_tier_lt" {
     resource_type = "instance"
 
     tags = {
-      Name = "${var.project_name}-instance"
+      Name = "${var.project_name}-multi-tier-instance"
     }
   }
 }
@@ -34,14 +34,14 @@ resource "aws_autoscaling_group" "multi_tier_asg" {
 
   tag {
     key                 = "Name"
-    value               = "${var.project_name}-asg"
+    value               = "${var.project_name}-multi-tier-asg"
     propagate_at_launch = true
   }
 }
 
 # Target Group for ALB
 resource "aws_lb_target_group" "multi_tier_tg" {
-  name     = "${var.project_name}-tg"
+  name     = "${var.project_name}-multi-tier-tg"
   port     = 8080
   protocol = "HTTP"
   vpc_id   = var.vpc_id
@@ -54,15 +54,15 @@ resource "aws_autoscaling_attachment" "multi_tier_asg_attach" {
 }
 
 # Security Group for ALB (allows HTTP & HTTPS)
-resource "aws_security_group" "alb_sg" {
-  name        = "${var.project_name}-alb-sg"
+resource "aws_security_group" "multi_tier_alb_sg" {
+  name        = "${var.project_name}-multi-tier-alb-sg"
   description = "Allow HTTP and HTTPS"
   vpc_id      = var.vpc_id
 }
 
 # ALB Security Group Rules
 resource "aws_security_group_rule" "alb_http" {
-  security_group_id = aws_security_group.alb_sg.id
+  security_group_id = aws_security_group.multi_tier_alb_sg.id
   type              = "ingress"
   from_port         = 80
   to_port           = 80
@@ -71,7 +71,7 @@ resource "aws_security_group_rule" "alb_http" {
 }
 
 resource "aws_security_group_rule" "alb_https" {
-  security_group_id = aws_security_group.alb_sg.id
+  security_group_id = aws_security_group.multi_tier_alb_sg.id
   type              = "ingress"
   from_port         = 443
   to_port           = 443
@@ -80,7 +80,7 @@ resource "aws_security_group_rule" "alb_https" {
 }
 
 resource "aws_security_group_rule" "alb_egress" {
-  security_group_id = aws_security_group.alb_sg.id
+  security_group_id = aws_security_group.multi_tier_alb_sg.id
   type              = "egress"
   from_port         = 0
   to_port           = 0
@@ -90,10 +90,10 @@ resource "aws_security_group_rule" "alb_egress" {
 
 # Application Load Balancer
 resource "aws_lb" "alb" {
-  name               = "${var.project_name}-alb"
+  name               = "${var.project_name}-multi-tier-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb_sg.id]
+  security_groups    = [aws_security_group.multi_tier_alb_sg.id]
   subnets           = var.public_subnet_ids
 }
 

@@ -1,3 +1,8 @@
+variable "project_name" {
+  description = "Project name for tagging"
+  type        = string
+}
+
 variable "vpc_cidr" {
   description = "CIDR block for the VPC"
   type        = string
@@ -16,11 +21,6 @@ variable "private_cidr" {
 variable "azs" {
   description = "List of availability zones"
   type        = list(string)
-}
-
-variable "project_name" {
-  description = "Project name for tagging"
-  type        = string
 }
 
 variable "allowed_cidrs" {
