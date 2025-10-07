@@ -1,4 +1,4 @@
-# Terraform
+# Terraform Essentials
 
 This repository contains basic terraform configurations along with commonly used commands and a `Makefile` to simplify workflow automation.
 It provides an easy starting point for managing infrastructure as code — including environment setup, initialization, validation, planning, and applying Terraform configurations through make commands.
